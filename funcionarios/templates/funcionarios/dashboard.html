@@ -1,0 +1,181 @@
+{% extends 'funcionarios/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Dashboard de Funcionários</h2>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+
+    <div class="col-md-6 mb-4">
+        <canvas id="departamentos"></canvas>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <canvas id="escolaridade"></canvas>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <canvas id="modelo"></canvas>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <canvas id="contrato"></canvas>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <canvas id="ativos"></canvas>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <canvas id="salario"></canvas>
+    </div>
+
+</div>
+
+<script>
+
+/* ---------------- DEPARTAMENTOS ---------------- */
+
+const departamentos = [
+{% for item in departamentos %}
+"{{ item.departamento }}",
+{% endfor %}
+];
+
+const qtdDepartamentos = [
+{% for item in departamentos %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("departamentos"), {
+type: "bar",
+data: {
+labels: departamentos,
+datasets: [{
+label: "Funcionários por Departamento",
+data: qtdDepartamentos
+}]
+}
+});
+
+
+/* ---------------- ESCOLARIDADE ---------------- */
+
+const escolaridade = [
+{% for item in escolaridade %}
+"{{ item.escolaridade }}",
+{% endfor %}
+];
+
+const qtdEscolaridade = [
+{% for item in escolaridade %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("escolaridade"), {
+type: "pie",
+data: {
+labels: escolaridade,
+datasets: [{
+data: qtdEscolaridade
+}]
+}
+});
+
+
+/* ---------------- MODELO DE TRABALHO ---------------- */
+
+const modelo = [
+{% for item in modelo %}
+"{{ item.modelo_trabalho }}",
+{% endfor %}
+];
+
+const qtdModelo = [
+{% for item in modelo %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("modelo"), {
+type: "doughnut",
+data: {
+labels: modelo,
+datasets: [{
+data: qtdModelo
+}]
+}
+});
+
+
+/* ---------------- TIPO DE CONTRATO ---------------- */
+
+const contrato = [
+{% for item in contrato %}
+"{{ item.tipo_contrato }}",
+{% endfor %}
+];
+
+const qtdContrato = [
+{% for item in contrato %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("contrato"), {
+type: "bar",
+data: {
+labels: contrato,
+datasets: [{
+label: "Tipo de contrato",
+data: qtdContrato
+}]
+}
+});
+
+
+/* ---------------- ATIVOS X INATIVOS ---------------- */
+
+new Chart(document.getElementById("ativos"), {
+type: "pie",
+data: {
+labels: ["Ativos", "Inativos"],
+datasets: [{
+data: [{{ ativos }}, {{ inativos }}]
+}]
+}
+});
+
+
+/* ---------------- MÉDIA SALARIAL ---------------- */
+
+const departamentosSalario = [
+{% for item in salarios %}
+"{{ item.departamento }}",
+{% endfor %}
+];
+
+const mediaSalario = [
+{% for item in salarios %}
+{{ item.media|floatformat:2 }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("salario"), {
+type: "bar",
+data: {
+labels: departamentosSalario,
+datasets: [{
+label: "Média salarial",
+data: mediaSalario
+}]
+}
+});
+
+</script>
+
+{% endblock %}

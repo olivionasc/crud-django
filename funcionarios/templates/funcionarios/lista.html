@@ -1,0 +1,35 @@
+{% extends 'funcionarios/base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <h3>Funcionários</h3>
+    <a href="/novo/" class="btn btn-primary">Novo Funcionário</a>
+</div>
+
+<table class="table table-striped shadow">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Departamento</th>
+            <th>Salário</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in funcionarios %}
+        <tr>
+            <td>{{ f.nome }}</td>
+            <td>{{ f.cargo }}</td>
+            <td>{{ f.departamento }}</td>
+            <td>R$ {{ f.salario }}</td>
+            <td>
+                <a href="/editar/{{f.id}}/" class="btn btn-warning btn-sm">Editar</a>
+                <a href="/deletar/{{f.id}}/" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

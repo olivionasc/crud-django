@@ -1,0 +1,130 @@
+{% extends 'funcionarios/base.html' %}
+{% block content %}
+
+<div class="card shadow p-4">
+
+    <h3 class="mb-4">Cadastro de Funcionário</h3>
+
+    <form method="post">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Erro ao enviar formulário:</strong>
+            <ul>
+
+                {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+
+            </ul>
+        </div>
+        {% endif %}
+        {% csrf_token %}
+
+        <h5 class="mb-3">Dados pessoais</h5>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nome</label>
+                {{ form.nome }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">CPF</label>
+                {{ form.cpf }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Telefone</label>
+                {{ form.telefone }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Cidade em que reside</label>
+                {{ form.cidade }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Escolaridade</label>
+                {{ form.escolaridade }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Data de nascimento</label>
+                {{ form.data_nascimento }}
+            </div>
+        </div>
+
+        <h5 class="mb-3">Dados Contratuais</h5>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Departamento</label>
+                {{ form.departamento }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Cargo</label>
+                {{ form.cargo }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Tipo de contrato</label>
+                {{ form.tipo_contrato }}
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Modelo de trabalho</label>
+                {{ form.modelo_trabalho }}
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Salário</label>
+                {{ form.salario }}
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Data admissão</label>
+                {{ form.data_admissao }}
+            </div>
+        </div>
+</div>
+
+<div class="form-check mb-3">
+    {{ form.ativo }}
+    <label class="form-check-label">Funcionário ativo</label>
+</div>
+
+<button class="btn btn-success">Salvar</button>
+<a href="/" class="btn btn-secondary">Voltar</a>
+
+</form>
+</div>
+<script>
+
+    Inputmask("999.999.999-99").mask("#cpf");
+
+    Inputmask("(99) 99999-9999").mask("#telefone");
+
+    Inputmask("currency", {
+        prefix: "R$ ",
+        groupSeparator: ".",
+        radixPoint: ",",
+        digits: 2
+    }).mask("#salario");
+
+</script>
+
+{% endblock %}
