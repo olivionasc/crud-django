@@ -2,41 +2,86 @@
 
 {% block content %}
 
-<h2 class="mb-4">Dashboard de Funcionários</h2>
+<h1 class="page-title">Dashboard de Funcionários</h1>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="row g-4 mb-4">
 
-<div class="row">
-
-    <div class="col-md-6 mb-4">
-        <canvas id="departamentos"></canvas>
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="kpi-number">{{ ativos }}</div>
+            <div class="kpi-label">Funcionários Ativos</div>
+        </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <canvas id="escolaridade"></canvas>
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="kpi-number">{{ inativos }}</div>
+            <div class="kpi-label">Funcionários Inativos</div>
+        </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <canvas id="modelo"></canvas>
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="kpi-number">{{ departamentos|length }}</div>
+            <div class="kpi-label">Departamentos</div>
+        </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <canvas id="contrato"></canvas>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-title">
+                Funcionários por Departamento
+            </div>
+            <canvas id="departamentos"></canvas>
+        </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <canvas id="ativos"></canvas>
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-title">
+                Escolaridade
+            </div>
+            <canvas id="escolaridade"></canvas>
+        </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <canvas id="salario"></canvas>
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-title">
+                Modelo de Trabalho
+            </div>
+            <canvas id="modelo"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-title">
+                Tipo de Contrato
+            </div>
+            <canvas id="contrato"></canvas>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="dashboard-card">
+            <div class="dashboard-title">
+                Média Salarial por Departamento
+            </div>
+            <canvas id="salario"></canvas>
+        </div>
     </div>
 
 </div>
 
 <script>
 
-/* ---------------- DEPARTAMENTOS ---------------- */
+Chart.defaults.font.family = "'Segoe UI'";
+Chart.defaults.color = "#475569";
 
 const departamentos = [
 {% for item in departamentos %}
@@ -50,19 +95,26 @@ const qtdDepartamentos = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById("departamentos"), {
-type: "bar",
-data: {
-labels: departamentos,
-datasets: [{
-label: "Funcionários por Departamento",
-data: qtdDepartamentos
-}]
-}
+new Chart(document.getElementById('departamentos'), {
+    type: 'bar',
+    data: {
+        labels: departamentos,
+        datasets: [{
+            label: 'Funcionários',
+            data: qtdDepartamentos,
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
 });
 
-
-/* ---------------- ESCOLARIDADE ---------------- */
 
 const escolaridade = [
 {% for item in escolaridade %}
@@ -76,18 +128,16 @@ const qtdEscolaridade = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById("escolaridade"), {
-type: "pie",
-data: {
-labels: escolaridade,
-datasets: [{
-data: qtdEscolaridade
-}]
-}
+new Chart(document.getElementById('escolaridade'), {
+    type: 'doughnut',
+    data: {
+        labels: escolaridade,
+        datasets: [{
+            data: qtdEscolaridade
+        }]
+    }
 });
 
-
-/* ---------------- MODELO DE TRABALHO ---------------- */
 
 const modelo = [
 {% for item in modelo %}
@@ -101,18 +151,16 @@ const qtdModelo = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById("modelo"), {
-type: "doughnut",
-data: {
-labels: modelo,
-datasets: [{
-data: qtdModelo
-}]
-}
+new Chart(document.getElementById('modelo'), {
+    type: 'pie',
+    data: {
+        labels: modelo,
+        datasets: [{
+            data: qtdModelo
+        }]
+    }
 });
 
-
-/* ---------------- TIPO DE CONTRATO ---------------- */
 
 const contrato = [
 {% for item in contrato %}
@@ -126,32 +174,25 @@ const qtdContrato = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById("contrato"), {
-type: "bar",
-data: {
-labels: contrato,
-datasets: [{
-label: "Tipo de contrato",
-data: qtdContrato
-}]
-}
+new Chart(document.getElementById('contrato'), {
+    type: 'bar',
+    data: {
+        labels: contrato,
+        datasets: [{
+            label: 'Contratos',
+            data: qtdContrato,
+            borderRadius: 8
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
 });
 
-
-/* ---------------- ATIVOS X INATIVOS ---------------- */
-
-new Chart(document.getElementById("ativos"), {
-type: "pie",
-data: {
-labels: ["Ativos", "Inativos"],
-datasets: [{
-data: [{{ ativos }}, {{ inativos }}]
-}]
-}
-});
-
-
-/* ---------------- MÉDIA SALARIAL ---------------- */
 
 const departamentosSalario = [
 {% for item in salarios %}
@@ -165,15 +206,16 @@ const mediaSalario = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById("salario"), {
-type: "bar",
-data: {
-labels: departamentosSalario,
-datasets: [{
-label: "Média salarial",
-data: mediaSalario
-}]
-}
+new Chart(document.getElementById('salario'), {
+    type: 'line',
+    data: {
+        labels: departamentosSalario,
+        datasets: [{
+            label: 'Média Salarial',
+            data: mediaSalario,
+            tension: 0.4
+        }]
+    }
 });
 
 </script>

@@ -7,8 +7,18 @@ from django.http import JsonResponse
 
 
 def lista_funcionarios(request):
-    funcionarios = Funcionario.objects.all()
-    return render(request, 'funcionarios/lista.html', {'funcionarios': funcionarios})
+
+    funcionarios = Funcionario.objects.all().order_by('nome')
+
+    context = {
+        'funcionarios': funcionarios
+    }
+
+    return render(
+        request,
+        'funcionarios/lista.html',
+        context
+    )
 
 
 def criar_funcionario(request):

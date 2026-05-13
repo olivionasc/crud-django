@@ -1,0 +1,215 @@
+body {
+    background-color: #f4f7fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1e293b;
+}
+
+/* NAVBAR */
+
+.navbar-custom {
+    background: linear-gradient(90deg, #0f172a, #1e293b);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.btn-navbar {
+    border: 1px solid #475569;
+    color: white;
+    transition: 0.2s;
+}
+
+.btn-navbar:hover {
+    background-color: #334155;
+    color: white;
+}
+
+.btn-dashboard {
+    background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+}
+
+.btn-dashboard:hover {
+    background: linear-gradient(90deg, #1d4ed8, #1e40af);
+    color: white;
+}
+
+/* CARDS */
+
+.card-modern {
+    background-color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+/* TITULOS */
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #0f172a;
+}
+
+/* TABELAS */
+
+.table-modern {
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.table-modern thead {
+    background: #0f172a;
+    color: white;
+}
+
+.table-modern th {
+    border: none;
+    padding: 18px;
+}
+
+.table-modern td {
+    padding: 18px;
+    vertical-align: middle;
+}
+
+.table-modern tbody tr {
+    transition: 0.2s;
+}
+
+.table-modern tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* BOTÕES */
+
+.btn-edit {
+    background-color: #facc15;
+    border: none;
+    color: black;
+}
+
+.btn-edit:hover {
+    background-color: #eab308;
+    color: black;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/* FORMULÁRIOS */
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+    border-color: #2563eb;
+}
+
+/* DASHBOARD */
+
+.dashboard-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    height: 100%;
+}
+
+.dashboard-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #334155;
+}
+
+/* KPI CARDS */
+
+.kpi-card {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.25);
+}
+
+.kpi-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.kpi-label {
+    opacity: 0.9;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .table-modern {
+        font-size: 14px;
+    }
+
+}
+
+/* TABELA */
+
+.table td,
+.table th {
+    border-color: #e2e8f0;
+}
+
+/* BADGES */
+
+.badge {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+/* BOTÕES PEQUENOS */
+
+.btn-sm {
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-weight: 500;
+}
+
+/* INPUT DE BUSCA */
+
+#buscaFuncionario {
+    height: 48px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .dashboard-card {
+        padding: 18px;
+    }
+
+}

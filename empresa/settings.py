@@ -74,12 +74,13 @@ WSGI_APPLICATION = 'empresa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-import dj_database_url
 import os
+import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
     )
 }
 
@@ -120,8 +121,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-import os
-
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
