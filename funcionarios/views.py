@@ -36,10 +36,7 @@ def lista_funcionarios(request):
         'total_funcionarios': total_funcionarios,
         'media_salarial': media_salarial,
         'total_departamentos': total_departamentos,
-        'percentual_ativos': percentual_ativos,
-        'cidades': list(funcionarios_cidade),
-        'cargos': list(cargos),
-        'salario_modelo': list(salario_modelo)
+        'percentual_ativos': percentual_ativos
     }
 
     return render(
@@ -133,7 +130,10 @@ def dashboard(request):
         'contrato': list(funcionarios_contrato),
         'salarios': list(media_salario),
         'ativos': ativos,
-        'inativos': inativos
+        'inativos': inativos,
+        'cidades': list(funcionarios_cidade),
+        'cargos': list(cargos),
+        'salario_modelo': list(salario_modelo)
     }
 
     return render(request, 'funcionarios/dashboard.html', context)
