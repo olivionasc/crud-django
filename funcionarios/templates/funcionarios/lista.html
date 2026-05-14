@@ -25,62 +25,64 @@
 
 <div class="row g-4 mb-4">
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
 
         <div class="kpi-card">
 
             <div class="kpi-number">
-                {{ funcionarios|length }}
+                {{ total_funcionarios }}
             </div>
 
             <div class="kpi-label">
-                Total de Funcionários
+                Funcionários
             </div>
 
         </div>
 
     </div>
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
 
-        <div class="dashboard-card">
+        <div class="kpi-card">
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="kpi-number">
+                R$ {{ media_salarial|floatformat:0 }}
+            </div>
 
-                <div>
-                    <h5 class="mb-1">Funcionários Ativos</h5>
-                    <p class="text-muted mb-0">
-                        Em atividade
-                    </p>
-                </div>
-
-                <span class="badge bg-success fs-6">
-                    Ativo
-                </span>
-
+            <div class="kpi-label">
+                Média Salarial
             </div>
 
         </div>
 
     </div>
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
 
-        <div class="dashboard-card">
+        <div class="kpi-card">
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="kpi-number">
+                {{ total_departamentos }}
+            </div>
 
-                <div>
-                    <h5 class="mb-1">Departamentos</h5>
-                    <p class="text-muted mb-0">
-                        Áreas cadastradas
-                    </p>
-                </div>
+            <div class="kpi-label">
+                Departamentos
+            </div>
 
-                <span class="badge bg-primary fs-6">
-                    RH
-                </span>
+        </div>
 
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="kpi-card">
+
+            <div class="kpi-number">
+                {{ percentual_ativos }}%
+            </div>
+
+            <div class="kpi-label">
+                Funcionários Ativos
             </div>
 
         </div>

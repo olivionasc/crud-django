@@ -10,8 +10,36 @@ def lista_funcionarios(request):
 
     funcionarios = Funcionario.objects.all().order_by('nome')
 
+    total_funcionarios = funcionarios.count()
+
+    media_salarial = funcionarios.aggregate(
+        media=Avg('salario')
+    )['media']
+
+    total_departamentos = (
+        funcionarios.values('departamento')
+        .distinct()
+        .count()
+    )
+
+    ativos = funcionarios.filter(ativo=True).count()
+
+    percentual_ativos = 0
+
+    if total_funcionarios > 0:
+        percentual_ativos = round(
+            (ativos / total_funcionarios) * 100
+        )
+
     context = {
-        'funcionarios': funcionarios
+        'funcionarios': funcionarios,
+        'total_funcionarios': total_funcionarios,
+        'media_salarial': media_salarial,
+        'total_departamentos': total_departamentos,
+        'percentual_ativos': percentual_ativos,
+        'cidades': list(funcionarios_cidade),
+        'cargos': list(cargos),
+        'salario_modelo': list(salario_modelo)
     }
 
     return render(
@@ -50,7 +78,7 @@ def dashboard(request):
     Funcionario.objects
     .values('departamento')
     .annotate(total=Count('id'))
-)
+    )
 
     funcionarios_escolaridade = (
         Funcionario.objects
@@ -74,7 +102,26 @@ def dashboard(request):
     Funcionario.objects
     .values('departamento')
     .annotate(media=Avg('salario'))
-)
+    )
+
+    funcionarios_cidade = (
+    Funcionario.objects
+    .values('cidade')
+    .annotate(total=Count('id'))
+    )
+
+    cargos = (
+    Funcionario.objects
+    .values('cargo')
+    .annotate(total=Count('id'))
+    .order_by('-total')[:5]
+    )
+
+    salario_modelo = (
+    Funcionario.objects
+    .values('modelo_trabalho')
+    .annotate(media=Avg('salario'))
+    )
 
     ativos = Funcionario.objects.filter(ativo=True).count()
     inativos = Funcionario.objects.filter(ativo=False).count()
@@ -90,3 +137,4 @@ def dashboard(request):
     }
 
     return render(request, 'funcionarios/dashboard.html', context)
+

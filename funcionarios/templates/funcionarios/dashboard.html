@@ -2,86 +2,315 @@
 
 {% block content %}
 
-<h1 class="page-title">Dashboard de Funcionários</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- HEADER -->
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <div>
+        <h1 class="page-title mb-1">
+            Dashboard RH
+        </h1>
+
+        <p class="text-muted mb-0">
+            Indicadores e métricas do sistema
+        </p>
+    </div>
+
+    <a href="/" class="btn btn-dashboard">
+        Voltar para Funcionários
+    </a>
+
+</div>
+
+
+<!-- KPI CARDS -->
 
 <div class="row g-4 mb-4">
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
+
         <div class="kpi-card">
-            <div class="kpi-number">{{ ativos }}</div>
-            <div class="kpi-label">Funcionários Ativos</div>
+
+            <div class="kpi-number">
+                {{ ativos|add:inativos }}
+            </div>
+
+            <div class="kpi-label">
+                Funcionários
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
+
         <div class="kpi-card">
-            <div class="kpi-number">{{ inativos }}</div>
-            <div class="kpi-label">Funcionários Inativos</div>
+
+            <div class="kpi-number">
+                {{ ativos }}
+            </div>
+
+            <div class="kpi-label">
+                Funcionários Ativos
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
+    <div class="col-lg-3 col-md-6">
+
         <div class="kpi-card">
-            <div class="kpi-number">{{ departamentos|length }}</div>
-            <div class="kpi-label">Departamentos</div>
+
+            <div class="kpi-number">
+                {{ departamentos|length }}
+            </div>
+
+            <div class="kpi-label">
+                Departamentos
+            </div>
+
         </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="kpi-card">
+
+            <div class="kpi-number">
+                {{ cargos|length }}
+            </div>
+
+            <div class="kpi-label">
+                Cargos em Destaque
+            </div>
+
+        </div>
+
     </div>
 
 </div>
+
+
+<!-- PRIMEIRA LINHA -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+
+        <div class="dashboard-card h-100">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="mb-1">
+                        Funcionários por Departamento
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Distribuição organizacional
+                    </p>
+                </div>
+
+            </div>
+
+            <canvas id="departamentos"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Ativos x Inativos
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Situação dos funcionários
+                </p>
+
+            </div>
+
+            <canvas id="ativos"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SEGUNDA LINHA -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Escolaridade
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Formação acadêmica
+                </p>
+
+            </div>
+
+            <canvas id="escolaridade"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Modelo de Trabalho
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Presencial, remoto e híbrido
+                </p>
+
+            </div>
+
+            <canvas id="modelo"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TERCEIRA LINHA -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Média Salarial por Departamento
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Comparativo salarial
+                </p>
+
+            </div>
+
+            <canvas id="salario"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Tipos de Contrato
+                </h5>
+
+                <p class="text-muted mb-0">
+                    CLT, PJ, estágio e temporário
+                </p>
+
+            </div>
+
+            <canvas id="contrato"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- QUARTA LINHA -->
 
 <div class="row g-4">
 
     <div class="col-lg-6">
-        <div class="dashboard-card">
-            <div class="dashboard-title">
-                Funcionários por Departamento
+
+        <div class="dashboard-card h-100">
+
+            <div class="mb-3">
+
+                <h5 class="mb-1">
+                    Funcionários por Cidade
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Distribuição geográfica
+                </p>
+
             </div>
-            <canvas id="departamentos"></canvas>
+
+            <canvas id="cidade"></canvas>
+
         </div>
+
     </div>
 
     <div class="col-lg-6">
-        <div class="dashboard-card">
-            <div class="dashboard-title">
-                Escolaridade
-            </div>
-            <canvas id="escolaridade"></canvas>
-        </div>
-    </div>
 
-    <div class="col-lg-6">
-        <div class="dashboard-card">
-            <div class="dashboard-title">
-                Modelo de Trabalho
-            </div>
-            <canvas id="modelo"></canvas>
-        </div>
-    </div>
+        <div class="dashboard-card h-100">
 
-    <div class="col-lg-6">
-        <div class="dashboard-card">
-            <div class="dashboard-title">
-                Tipo de Contrato
-            </div>
-            <canvas id="contrato"></canvas>
-        </div>
-    </div>
+            <div class="mb-3">
 
-    <div class="col-12">
-        <div class="dashboard-card">
-            <div class="dashboard-title">
-                Média Salarial por Departamento
+                <h5 class="mb-1">
+                    Cargos Mais Comuns
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Funções mais frequentes
+                </p>
+
             </div>
-            <canvas id="salario"></canvas>
+
+            <canvas id="cargos"></canvas>
+
         </div>
+
     </div>
 
 </div>
 
+
 <script>
 
-Chart.defaults.font.family = "'Segoe UI'";
-Chart.defaults.color = "#475569";
+/* CONFIG GLOBAL */
+
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = "#64748b";
+
+
+/* DEPARTAMENTOS */
 
 const departamentos = [
 {% for item in departamentos %}
@@ -95,16 +324,20 @@ const qtdDepartamentos = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById('departamentos'), {
-    type: 'bar',
+new Chart(document.getElementById("departamentos"), {
+
+    type: "bar",
+
     data: {
         labels: departamentos,
+
         datasets: [{
-            label: 'Funcionários',
+            label: "Funcionários",
             data: qtdDepartamentos,
-            borderRadius: 8
+            borderRadius: 12
         }]
     },
+
     options: {
         responsive: true,
         plugins: {
@@ -113,8 +346,11 @@ new Chart(document.getElementById('departamentos'), {
             }
         }
     }
+
 });
 
+
+/* ESCOLARIDADE */
 
 const escolaridade = [
 {% for item in escolaridade %}
@@ -128,16 +364,22 @@ const qtdEscolaridade = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById('escolaridade'), {
-    type: 'doughnut',
+new Chart(document.getElementById("escolaridade"), {
+
+    type: "doughnut",
+
     data: {
         labels: escolaridade,
+
         datasets: [{
             data: qtdEscolaridade
         }]
     }
+
 });
 
+
+/* MODELO */
 
 const modelo = [
 {% for item in modelo %}
@@ -151,16 +393,22 @@ const qtdModelo = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById('modelo'), {
-    type: 'pie',
+new Chart(document.getElementById("modelo"), {
+
+    type: "pie",
+
     data: {
         labels: modelo,
+
         datasets: [{
             data: qtdModelo
         }]
     }
+
 });
 
+
+/* CONTRATO */
 
 const contrato = [
 {% for item in contrato %}
@@ -174,16 +422,20 @@ const qtdContrato = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById('contrato'), {
-    type: 'bar',
+new Chart(document.getElementById("contrato"), {
+
+    type: "bar",
+
     data: {
         labels: contrato,
+
         datasets: [{
-            label: 'Contratos',
+            label: "Funcionários",
             data: qtdContrato,
-            borderRadius: 8
+            borderRadius: 12
         }]
     },
+
     options: {
         plugins: {
             legend: {
@@ -191,8 +443,30 @@ new Chart(document.getElementById('contrato'), {
             }
         }
     }
+
 });
 
+
+/* ATIVOS */
+
+new Chart(document.getElementById("ativos"), {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: ["Ativos", "Inativos"],
+
+        datasets: [{
+            data: [{{ ativos }}, {{ inativos }}]
+        }]
+
+    }
+
+});
+
+
+/* SALARIO */
 
 const departamentosSalario = [
 {% for item in salarios %}
@@ -206,16 +480,102 @@ const mediaSalario = [
 {% endfor %}
 ];
 
-new Chart(document.getElementById('salario'), {
-    type: 'line',
+new Chart(document.getElementById("salario"), {
+
+    type: "bar",
+
     data: {
+
         labels: departamentosSalario,
+
         datasets: [{
-            label: 'Média Salarial',
+            label: "Média Salarial",
             data: mediaSalario,
-            tension: 0.4
+            borderRadius: 12
         }]
+
+    },
+
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
     }
+
+});
+
+
+/* CIDADE */
+
+const cidades = [
+{% for item in cidades %}
+"{{ item.cidade }}",
+{% endfor %}
+];
+
+const qtdCidade = [
+{% for item in cidades %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("cidade"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: cidades,
+
+        datasets: [{
+            label: "Funcionários",
+            data: qtdCidade,
+            borderRadius: 12
+        }]
+
+    },
+
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+
+});
+
+
+/* CARGOS */
+
+const cargos = [
+{% for item in cargos %}
+"{{ item.cargo }}",
+{% endfor %}
+];
+
+const qtdCargos = [
+{% for item in cargos %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("cargos"), {
+
+    type: "polarArea",
+
+    data: {
+
+        labels: cargos,
+
+        datasets: [{
+            data: qtdCargos
+        }]
+
+    }
+
 });
 
 </script>
