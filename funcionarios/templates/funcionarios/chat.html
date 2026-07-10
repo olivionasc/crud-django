@@ -1,0 +1,261 @@
+{% extends 'funcionarios/base.html' %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+    <!-- SIDEBAR DE SUGESTÕES -->
+    <div class="col-lg-4 col-md-5">
+        <div class="card-modern h-100 d-flex flex-column">
+            <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lightbulb text-warning" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.963 1.963 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                Sugestões de Perguntas
+            </h5>
+            <p class="text-muted small">Clique em uma sugestão abaixo para enviá-la automaticamente ao chatbot:</p>
+            <div class="d-flex flex-column gap-2 overflow-y-auto" style="max-height: 480px; padding-right: 4px;">
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quem trabalha no RH?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quem trabalha na tecnologia?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Liste os desenvolvedores.</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Qual funcionário recebe o maior salário?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Qual o salário médio?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quantos funcionários existem?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quem foi contratado este ano?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quem foi contratado primeiro?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quais funcionários estão ativos?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Quem recebe mais de R$ 8.000?</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm text-start py-2 px-3 suggestion-btn">Liste todos do Financeiro.</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JANELA DE CHAT -->
+    <div class="col-lg-8 col-md-7">
+        <div class="card-modern d-flex flex-column" style="height: 600px;">
+            <div class="d-flex justify-content-between align-items-center pb-3 border-bottom mb-3">
+                <div>
+                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
+                        <span class="chat-status-indicator"></span>
+                        Assistente Inteligente
+                    </h5>
+                    <small class="text-muted">NLP local baseado em regras</small>
+                </div>
+                <button type="button" class="btn btn-outline-danger btn-sm px-3 d-flex align-items-center gap-1" id="clearChatBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                    </svg>
+                    Limpar Conversa
+                </button>
+            </div>
+
+            <!-- CORPO DO HISTÓRICO -->
+            <div class="flex-grow-1 overflow-y-auto mb-3 pe-2" id="chatHistory" style="scroll-behavior: smooth;">
+                <!-- As mensagens serão inseridas aqui dinamicamente -->
+            </div>
+
+            <!-- INDICADOR DE CARREGAMENTO -->
+            <div id="chatLoading" class="d-none mb-3 px-3 py-2 bg-light rounded-pill align-self-start text-muted small d-flex align-items-center gap-2">
+                <span class="spinner-grow spinner-grow-sm text-primary" role="status"></span>
+                <span>Pensando...</span>
+            </div>
+
+            <!-- FORMULÁRIO DE INPUT -->
+            <form id="chatForm" class="mt-auto">
+                <div class="input-group">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Faça uma pergunta sobre os funcionários..." required autocomplete="off">
+                    <button type="submit" class="btn btn-dashboard px-4" id="sendBtn">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Status indicator style */
+    .chat-status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: #22c55e;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* Message bubbles */
+    .chat-msg {
+        max-width: 75%;
+        margin-bottom: 1rem;
+        padding: 12px 18px;
+        border-radius: 16px;
+        word-wrap: break-word;
+        white-space: pre-line;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .chat-msg-user {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+    }
+
+    .chat-msg-bot {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        align-self: flex-start;
+        border-bottom-left-radius: 4px;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* Suggestions button hover */
+    .suggestion-btn {
+        transition: all 0.2s ease-in-out;
+        border-radius: 10px;
+        font-weight: 500;
+        background-color: #f8fafc;
+        border-color: #e2e8f0;
+        color: #475569;
+    }
+
+    .suggestion-btn:hover {
+        background-color: #e2e8f0;
+        color: #0f172a;
+        transform: translateX(4px);
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const chatHistory = document.getElementById("chatHistory");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    const chatLoading = document.getElementById("chatLoading");
+    const clearChatBtn = document.getElementById("clearChatBtn");
+    const suggestionBtns = document.querySelectorAll(".suggestion-btn");
+
+    // Mensagem de boas-vindas padrão
+    const WELCOME_MESSAGE = {
+        sender: "bot",
+        text: "Olá! Eu sou o assistente inteligente do sistema.\n\nVocê pode me fazer perguntas como:\n- *'Quantos funcionários trabalham no RH?'*\n- *'Quem recebe o maior salário?'*\n- *'Qual o salário médio da TI?'*\n- *'Quais funcionários estão ativos?'*\n\nComo posso ajudar você agora?"
+    };
+
+    // Carregar histórico do localStorage ou iniciar com boas-vindas
+    let history = JSON.parse(localStorage.getItem("chat_history")) || [WELCOME_MESSAGE];
+
+    function renderHistory() {
+        chatHistory.innerHTML = "";
+        history.forEach(msg => {
+            appendMessageUI(msg.sender, msg.text, false);
+        });
+        scrollToBottom();
+    }
+
+    function saveHistory() {
+        localStorage.setItem("chat_history", JSON.stringify(history));
+    }
+
+    function appendMessageUI(sender, text, animate = true) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "d-flex flex-column w-100";
+        
+        const bubble = document.createElement("div");
+        bubble.className = `chat-msg ${sender === 'user' ? 'chat-msg-user align-self-end' : 'chat-msg-bot align-self-start'}`;
+        
+        // Conversão básica de markdown para HTML simples (ex: **negrito** ou *itálico*)
+        let formattedText = text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/\n/g, '<br>');
+
+        bubble.innerHTML = formattedText;
+        
+        wrapper.appendChild(bubble);
+        chatHistory.appendChild(wrapper);
+        
+        if (animate) {
+            bubble.style.opacity = 0;
+            bubble.style.transform = "translateY(10px)";
+            bubble.style.transition = "all 0.3s ease";
+            setTimeout(() => {
+                bubble.style.opacity = 1;
+                bubble.style.transform = "translateY(0)";
+            }, 50);
+        }
+    }
+
+    function scrollToBottom() {
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    async function sendMessage(text) {
+        if (!text.trim()) return;
+
+        // Adiciona mensagem do usuário
+        const userMsg = { sender: "user", text: text };
+        history.push(userMsg);
+        appendMessageUI("user", text);
+        saveHistory();
+        scrollToBottom();
+
+        // Limpa input
+        chatInput.value = "";
+
+        // Mostra loading
+        chatLoading.classList.remove("d-none");
+        scrollToBottom();
+
+        try {
+            const response = await fetch("/chat/api/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: text })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const botMsg = { sender: "bot", text: data.response };
+                history.push(botMsg);
+                appendMessageUI("bot", data.response);
+                saveHistory();
+            } else {
+                throw new Error("Erro na requisição");
+            }
+        } catch (error) {
+            const errorMsg = { sender: "bot", text: "Erro: Não foi possível obter resposta do servidor local. Certifique-se de que o servidor está rodando." };
+            history.push(errorMsg);
+            appendMessageUI("bot", errorMsg.text);
+            saveHistory();
+        } finally {
+            chatLoading.classList.add("d-none");
+            scrollToBottom();
+        }
+    }
+
+    // Event Listeners
+    chatForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        sendMessage(chatInput.value);
+    });
+
+    clearChatBtn.addEventListener("click", function() {
+        if (confirm("Tem certeza de que deseja limpar todo o histórico da conversa?")) {
+            history = [WELCOME_MESSAGE];
+            saveHistory();
+            renderHistory();
+        }
+    });
+
+    suggestionBtns.forEach(btn => {
+        btn.addEventListener("click", function() {
+            sendMessage(btn.textContent.trim());
+        });
+    });
+
+    // Inicialização
+    renderHistory();
+});
+</script>
+{% endblock %}

@@ -7,4 +7,6 @@ urlpatterns = [
     path('editar/<int:id>/', views.editar_funcionario, name='editar_funcionario'),
     path('deletar/<int:id>/', views.deletar_funcionario, name='deletar_funcionario'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('chat/', views.chat_page, name='chat_page'),
+    path('chat/api/', views.chat_api, name='chat_api'),
 ]

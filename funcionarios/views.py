@@ -138,3 +138,26 @@ def dashboard(request):
 
     return render(request, 'funcionarios/dashboard.html', context)
 
+
+def chat_page(request):
+    """Renderiza a página principal do Chatbot."""
+    return render(request, 'funcionarios/chat.html')
+
+
+from django.views.decorators.csrf import csrf_exempt
+from .chatbot.engine import process_message
+
+@csrf_exempt
+def chat_api(request):
+    """Endpoint da API que processa a mensagem e retorna a resposta."""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            message = data.get('message', '')
+            response = process_message(message)
+            return JsonResponse({'response': response})
+        except Exception as e:
+            return JsonResponse({'response': f"Erro ao processar: {str(e)}"}, status=400)
+    return JsonResponse({'response': 'Método não permitido'}, status=405)
+
+
