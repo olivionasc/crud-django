@@ -84,8 +84,30 @@ class ChatbotNLPTests(TestCase):
     def test_full_pipeline(self):
         # Teste completo
         response = process_message("Quantos funcionarios existem?")
-        self.assertIn("2", response)
+        self.assertEqual(response["type"], "kpi")
+        self.assertIn("2", response["text"])
 
         # Teste com erro de digitação
         response_typo = process_message("Qual o salaro medio?")
-        self.assertIn("10.250", response_typo)  # (8500 + 12000) / 2 = 10250
+        self.assertEqual(response_typo["type"], "kpi")
+        self.assertIn("10.250", response_typo["text"])  # (8500 + 12000) / 2 = 10250
+
+    def test_analytical_builders(self):
+        # Teste do Dashboard
+        res_dash = process_message("Quero ver o dashboard da empresa")
+        self.assertEqual(res_dash["type"], "dashboard")
+        self.assertTrue(len(res_dash["components"]) > 0)
+
+        # Teste de Gráfico de Barras
+        res_bar = process_message("Quero um grafico de funcionarios por setor")
+        self.assertEqual(res_bar["type"], "bar-chart")
+        self.assertTrue(len(res_bar["components"]) > 0)
+        self.assertEqual(res_bar["components"][0]["type"], "bar-chart")
+
+        # Teste de Tabela
+        res_tbl = process_message("listar todos os funcionarios")
+        self.assertEqual(res_tbl["type"], "table")
+        self.assertTrue(len(res_tbl["components"]) > 0)
+        self.assertEqual(res_tbl["components"][0]["type"], "table")
+
+

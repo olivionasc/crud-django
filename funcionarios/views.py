@@ -155,9 +155,20 @@ def chat_api(request):
             data = json.loads(request.body)
             message = data.get('message', '')
             response = process_message(message)
-            return JsonResponse({'response': response})
+            return JsonResponse(response)
         except Exception as e:
-            return JsonResponse({'response': f"Erro ao processar: {str(e)}"}, status=400)
-    return JsonResponse({'response': 'Método não permitido'}, status=405)
+            return JsonResponse({
+                'type': 'text',
+                'text': f"Erro ao processar: {str(e)}",
+                'components': [],
+                'data': None
+            }, status=400)
+    return JsonResponse({
+        'type': 'text',
+        'text': 'Método não permitido',
+        'components': [],
+        'data': None
+    }, status=405)
+
 
 
